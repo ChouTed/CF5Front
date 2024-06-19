@@ -142,11 +142,11 @@
     padding: 20px 40px 20px 40px;
     border-radius: 40px;
     border-style:none;
-    background-image: linear-gradient(to right,#ffaec9, #ff7f27);
+    background-image: radial-gradient(#ffaec9,#ff7f27);
     }
 
     .button> button:hover{
-        background-image: linear-gradient(to right, #ff7f27,#afaeff);
+        background-image: radial-gradient( #ffaec9,#ffaec9, #ff7f27 );
     cursor: pointer;
     }
 
