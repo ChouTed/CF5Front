@@ -2,8 +2,7 @@
   <div id="app">
     
     <img class="logo" alt="tailandi logo" src="./assets/logo.png">
-    <router-link to="/loginPage">Login</router-link>
-    <!-- <login/> -->
+    <!-- <router-link to="/loginPage">Login</router-link> -->
      <router-view></router-view>
   </div>
 </template>

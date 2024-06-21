@@ -4,18 +4,11 @@
         <br>
         <div class="form"  >
         <label for="username">username</label><br>
-        <input type="text" v-model="username" id="username" name="username" placeholder="Your username.."><br>
+        <input type="text" v-model="username" required id="username" name="username" placeholder="Your username.."><br>
         <label for="password">password</label><br>
-        <input type="password" v-model="password" id="password" name="password" placeholder="Your password.."><br>
-        <input type="checkbox" v-model="checked" value="remember-me" id="rememberMe" name="rememberMe">Remember me
-        <label for="rememberMe">{{ checked }}</label>
-        <div class="button" >
-            <button type="submit" @click="loginEvent" >Login</button>
-        </div>
-        <div class="forgotPassword">
-            <p >-or-</p>
-            <router-link :to="{ name: 'forgotPassword' }">forgot password? Click here.</router-link>
-        </div>
+        <input type="password" v-model="password" required id="password" name="password" placeholder="Your password.."><br>
+        <input @click="requirementCheckLoginButton" type="submit" value="Login" class="button">
+        
         </div>
     </div>
 
@@ -28,15 +21,21 @@ export default {
     data() {
         return{
             username:"",
-            password:"",
-            checked:""
+            password:""
         }
     },
 
     methods: {
-        loginEvent(){
-            console.log("on login")
-        }    
+        requirementCheckLoginButton()   {
+            if (this.username=='' || this.password =='' ){
+                console.warn('no')
+            }
+            else{
+                // if() {
+                //     this.$router.push({ name: 'tablesPage' });
+                //     }
+                }
+        }
 
     }
 
@@ -81,21 +80,11 @@ margin-right: auto;
 padding: 15px 15px 15px 15px;
 background-color:  #edfff5cc;
 border-radius: 15px;
-}
-
-/* @media (min-width: 1000px) {
-.hello {
-width:fit-content;
-padding: 0 20px 0 20px;
-}
-} */
+} 
 
 .form{
 font-size: 2rem;
 font-family: inherit;
-
-
-
 padding: 10px 20px 10px 20px;
 text-align: left;
 }
@@ -136,48 +125,21 @@ border: none;
 border-bottom: 2px solid #00a2e8;
 }
 
-.checkbox{
-user-select: none;
-font-size: 1.5rem;  }
-
-#rememberMe{
-width: 20px;
-height: 20px;
-margin: 0 10px 0 0;
-}
-
 .button{
-text-align: center;
-}
-
-.button> button{
+display:flex ;
+margin-left: auto;
+margin-right: auto;
 font-size: 2rem;
 font-family: inherit;
-margin: 15px 0 0 0;
+margin-top: 15px;
 padding: 20px 40px 20px 40px;
 border-radius: 40px;
 border-style:none;
 background-image: radial-gradient(#ffaec9,#ff7f27);
 }
 
-.button> button:hover{
+.button:hover{
     background-image: radial-gradient( #ffaec9,#ffaec9, #ff7f27 );
 cursor: pointer;
 }
-
-.forgotPassword{
-font-size: 2rem;
-text-align: center;
-}
-
-.forgotPassword>p{
-margin: 15px 0 0 0;
-}
-
-.forgotPassword>a{
-font-size: 1rem;
-color: #ff7f27;
-}
-
-
 </style>
