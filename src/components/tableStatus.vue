@@ -1,28 +1,36 @@
 <template>
+
     <div class="tableStatusPage">
         <div class="tableStatus">
-            
-            <!-- <label for="quantity">Customers</label> -->
-            
-            <button @click="''">{{orderStatusButton}}</button>
+            Customers
+            <input v-model="customersNumber" min="0" max="4" type="number">
+            <button @click="orderStatus()" >{{ orderStatusButton }}</button>
         </div>
     </div>
 </template>
 
 <script>
+// const axios = require('axios');
+
 export default {
     data() {
       return {
         customersNumber: 0,
-         orderStatusButton: 'Order',
+        orderStatusButton: 'Order',
       };
     },
     methods: {
-    toggleOrderStatus() {
-      // Logic to toggle or update orderStatusButton
-      this.orderStatusButton = 'New Status';
+        orderStatus(){
+            this.$router.push({ name: 'orderPage' })
+            
+        }
+    },
+    mounted () {
+    //     console.log("works")
+    // axios
+    //   .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    //   .then(response => (this.info = response))
     }
-  }
   };
 </script>
 
@@ -45,7 +53,7 @@ export default {
     border-radius: 15px;
     }
 
-    /* .tableStatus>input{
+    .tableStatus>input{
         font-family: inherit;
         font-size: 2rem;
         width: 280px;
@@ -53,7 +61,7 @@ export default {
     padding: 10px 20px 10px 20px;
     border-radius: 20px;
     border-style:none;
-    } */
+    }
 
     .tableStatus>button{
         align-self: end;

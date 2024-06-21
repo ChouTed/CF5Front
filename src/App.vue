@@ -3,7 +3,7 @@
     
     <img class="logo" alt="tailandi logo" src="./assets/logo.png">
     <!-- <router-link to="/loginPage">Login</router-link> -->
-     <router-view></router-view>
+     <router-view/>
   </div>
 </template>
 
@@ -37,7 +37,15 @@ export default {
     
 }
 
-
+#nav a {
+    padding: 30px;
+    font-weight:bold;
+    color:#2c3e50
+}
+#nav a.router-link-exact-active{
+    padding:30px;
+    color:red;
+}
 
 img{
     width: 200px;
