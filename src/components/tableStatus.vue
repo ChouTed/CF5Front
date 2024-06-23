@@ -3,7 +3,7 @@
     <div class="tableStatusPage">
         <div class="tableStatus">
             Customers
-            <input v-model="customersNumber" min="0" max="4" type="number">
+            <el-input-number class="customersNumber" v-model="customersNumber" @change="handleChange" :min="1" :max="4"  ></el-input-number>
             <button @click="orderStatus()" >{{ orderStatusButton }}</button>
         </div>
     </div>
@@ -20,6 +20,9 @@ export default {
       };
     },
     methods: {
+        handleChange(value) {
+        console.log(value)
+        },
         orderStatus(){
             this.$router.push({ name: 'orderPage' })
             
@@ -53,22 +56,21 @@ export default {
     border-radius: 15px;
     }
 
-    .tableStatus>input{
+    .customersNumber{
         font-family: inherit;
         font-size: 2rem;
         width: 280px;
-        display:flex ;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    border-style:none;
+        border-radius: 20px;
+        border-style:none;
     }
 
     .tableStatus>button{
         align-self: end;
         font-family: inherit;
-        font-size: 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
         margin-top: 15px;
-        padding: 20px 40px 20px 40px;
+        padding: 10px 40px 10px 40px;
         border-radius: 40px;
         border-style:none;
         background-image: radial-gradient(#ffaec9,#ff7f27);

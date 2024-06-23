@@ -1,11 +1,7 @@
 <template>
-    <table>
-                <tr>
-                    <th>Product</th>
-                    <th>quantity</th>
-
-                </tr>    
-    </table>
+    <div class="tableOrderDialog" >
+        <el-input-number class="orderPageTable" v-model="num" @change="handleChange" :min="0" :max="10"></el-input-number>
+    </div>
 </template>
 
 <script>
@@ -16,6 +12,7 @@ export default {
     data() {
 
         return {
+            num: 0,
             productName: 'doulevei to product name',
     //     customersNumber: 0,
     //     orderStatusButton: 'Order',
@@ -24,6 +21,9 @@ export default {
     methods: {
         orderStatus(){
             
+        },
+        handleChange(value) {
+        console.log(value)
         }
     },
     mounted () {
@@ -37,4 +37,12 @@ export default {
 </script>
 
 <style>
+
+.tableOrderDialog{
+    padding: 15px 15px 15px 15px;
+    width: fit-content;
+    margin: auto;
+    background-color:  #edfff5cc;
+}
+
 </style>
