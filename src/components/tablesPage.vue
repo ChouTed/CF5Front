@@ -66,6 +66,7 @@ export default {
     .tablesPage{
     width: fit-content;
     display: flex;
+    flex-direction: column;
     margin-left: auto;
     margin-right: auto;
     gap: 15px;
@@ -74,6 +75,12 @@ export default {
     flex-direction: row;
     align-items: start;
     
+    }
+
+    @media (max-width: 830px) {
+        .tablesPage{
+            flex-direction: column;
+        }
     }
 
     h1{

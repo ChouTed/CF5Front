@@ -1,14 +1,40 @@
 <template>
     <div class="tableOrderDialog" >
         <el-table
-            :data="tableData" style="width: 100%"> 
-        <el-table-column prop="product_name" label="Product Name" width="180">
-        </el-table-column>
-        <el-table-column prop="product_quantity" label="Quantity" width="180">
-            <el-input-number class="orderPageTable" v-model="pproduct_quantity" @change="handleChange" :min="0" :max="10"></el-input-number>
-        </el-table-column>
-    </el-table>
+            class="tableOrderMenuDialog"
+            :data="tableData" 
+            > 
+            <el-table-column 
+                prop="product_name" 
+                label="Product Name" 
+                >
+            </el-table-column>
+            <el-table-column 
+                prop="product_quantity" 
+                label="Quantity"  >
+                <template slot-scope="scope">
+                    <el-input-number 
+                        class="orderPageTable" 
+                        v-model="scope.row.product_quantity"  
+                        @change="handleChange"
+                        :min="0" 
+                        :max="10" 
+                        style="width: 130px"
+                    ></el-input-number>
+                </template>
+            </el-table-column>
         
+        </el-table>
+        <el-table
+            :data="placeholder" >
+            <el-table-column 
+                prop="product_name" 
+                label="Product Name" 
+                >
+
+            </el-table-column>
+        </el-table>
+    
     </div>
 </template>
 
@@ -20,15 +46,9 @@ export default {
     data() {
 
         return {
-            num: 0,
-            productName: 'doulevei to product name',
         //      customersNumber: 0,
         //      orderStatusButton: 'Order',
-            tableData: [{
-                product_name: 'pad taio',
-                product_quantity: 0,
-            }, 
-            ]
+            tableData: []
       };
     },
     methods: {
@@ -37,27 +57,51 @@ export default {
         },
         handleChange() {
         console.log("patisa order")
-        console.log()
-        },
 
+        
+        },
+        async loadPage(){
+            let response = axios.get('http://localhost:5000/api/getMenu')
+
+            return response
+        },
     },
-    mounted () {
-        console.log("works")
-        axios
-            .get('http://localhost:5000/api/getMenu')
-            .then(response => (this.productName = response))
-        console.log(this.productName);
+    async mounted  () {
+        let response = await this.loadPage()
+        let dataProducts = JSON.parse(JSON.stringify(response.data))
+
+        for (let i in dataProducts){
+
+            this.tableData.push({
+                product_name: dataProducts[i].product_name,
+                product_quantity: 0,
+                product_id: dataProducts[i].product_id
+            })
+        }
     }
+
   };
 </script>
 
 <style>
 
 .tableOrderDialog{
+    display: flex;
+    font-family: inherit;
+    font-size: 3rem;
     padding: 15px 15px 15px 15px;
-    width: fit-content;
+    gap: 15px;
+    width: 800px;
+    max-height: 75%;
     margin: auto;
     background-color:  #edfff5cc;
+    border-radius: 5px;
+    
+    
+}
+
+.tableOrderMenuDialog{
+    overflow-y: scroll;
 }
 
 </style>
