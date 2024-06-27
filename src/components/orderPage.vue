@@ -46,7 +46,12 @@
             </el-table-column>
             
         </el-table>
-        <el-button @click="saveOrder()" color="primary" :disabled="orderData.length == 0 ">SAVE ORDER</el-button></div>
+        <el-button 
+            class="button" 
+            @click="placeOrder()" 
+            color="primary" 
+            :disabled="orderData.length == 0 "
+        >Place Order</el-button></div>
     </div>
 </template>
 
@@ -69,7 +74,7 @@ export default {
             
         },
         handleChange(value) {
-            console.log("patisa order")
+            console.log("patisa place order")
             console.log(value.product_name + "qty:" + value.product_quantity)
             let alreadyExists = false
             for(let i in this.orderData){
@@ -93,7 +98,7 @@ export default {
 
             return response
         },
-        async saveOrder(){
+        async placeOrder(){
             console.log(JSON.stringify(this.orderData))
             this.orderData = []
         },
@@ -134,6 +139,23 @@ export default {
 
 .tableOrderMenuDialog{
     overflow-y: scroll;
+}
+
+.button{
+    color: black;
+    align-self: end;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 10px 40px 10px 40px;
+    border-radius: 40px;
+    border-style:none;
+    background-image: radial-gradient(#ffaec9,#ff7f27);
+}
+
+.button:hover{
+    background-image: radial-gradient(#ffaec9,#ffaec9,#ff7f27);
 }
 
 </style>

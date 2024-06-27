@@ -7,7 +7,7 @@
         <input type="text" v-model="username" required id="username" name="username" placeholder="Your username.."><br>
         <label for="password">password</label><br>
         <input type="password" v-model="password" required id="password" name="password" placeholder="Your password.."><br>
-        <input @click="requirementCheckLoginButton" type="submit" value="Login" class="button">
+        <input @click="loginUser()" type="submit" value="Login" class="button">
         
         </div>
     </div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'loginPage',
 
@@ -35,8 +36,15 @@ export default {
                 //     this.$router.push({ name: 'tablesPage' });
                 //     }
                 }
+        },
+        async loginUser() {
+        try {
+            let response = await axios.get('http://localhost:5000/api/getUsers/login');
+            console.log(response.data);
+        } catch (error) {
+            console.error('An error occurred:', error);
         }
-
+    }
     }
 
 }
