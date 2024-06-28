@@ -39,22 +39,29 @@ export default {
         },
         async loginUser() {
         try {
-            // let response = await axios.post('http://localhost:5000/api/login',  {
-            //         username: this.username,
-            //         password: this.password})
+            let credentials = {
+                username: this.username,
+                password: this.password
+            }
+            let response = await axios.post('http://localhost:5000/api/login',credentials)
             
-            // this.username="";
-            // this.password="";
-            // return response;
+            // if(response.data.error!= ""){
+            //     console.log("Wrong User")
+            //     console.log("Wrong User")
+            // }else {
+            //     // this.$router.push({ name: 'tablesPage' });
+            // }
+            
+            this.username="";
+            this.password="";
 
-            let response = await axios.get('http://localhost:5000/api/login',  { withCredentials: true } )
-            
-            
-            return response;
+            console.log(response)
+            return (response);
             
         } catch (error) {
+            console.log(error)
             return 
-            // console.error('An error occurred:', error);
+            
         }
         }
     }
