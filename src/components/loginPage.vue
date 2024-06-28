@@ -39,12 +39,17 @@ export default {
         },
         async loginUser() {
         try {
-            let response = await axios.post('http://localhost:5000/api/getUsers/login',  {
-                    username: this.username,
-                    password: this.password})
+            // let response = await axios.post('http://localhost:5000/api/login',  {
+            //         username: this.username,
+            //         password: this.password})
             
-            this.username="";
-            this.password="";
+            // this.username="";
+            // this.password="";
+            // return response;
+
+            let response = await axios.get('http://localhost:5000/api/login',  { withCredentials: true } )
+            
+            
             return response;
             
         } catch (error) {
