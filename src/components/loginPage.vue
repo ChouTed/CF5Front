@@ -38,19 +38,19 @@ export default {
                 }
         },
         async login() {
-      try {
-        console.log('tried')
-        const response = await axios.post('http://localhost:5000/api/login', {
-          username: this.username,
-          password: this.password
-        }, { withCredentials: true });
-        
+            try {
+                console.log('tried')
+                const response = await axios.post('http://localhost:5000/api/login', {
+                username: this.username,
+                password: this.password
+                }, { withCredentials: true });
+                this.$router.push({ name: 'tablesPage' });
 
-        console.log(response.data);
-      } catch (error) {
-        console.error('Login failed', error);
-      }
-    }
+                console.log(response.data);
+            } catch (error) {
+                console.error('Login failed', error);
+            }
+        }
     }
 
 }

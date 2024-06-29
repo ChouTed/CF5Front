@@ -36,16 +36,100 @@
             <button @click="showTable('29')" class="table capacity4">29</button>
             <button @click="showTable('30')" class="table capacity4">30</button>
         </div>
+        <el-dialog
+            title="Order"
+            :visible.sync="showDialog"
+            :before-close="closeDialog"
+            style="border-color: aquamarine"
+            width="50%"
+            >
+            <div class="tableOrderDialog" >
+                <el-table
+                    class="tableOrderMenuDialog"
+                    :data="tableData" 
+                    > 
+                    <el-table-column 
+                        prop="product_name" 
+                        label="Product Name" 
+                        >
+                    </el-table-column>
+                    <el-table-column 
+                        prop="product_quantity" 
+                        label="Quantity"  >
+                        <template slot-scope="scope">
+                            <el-input-number 
+                                class="orderPageTable" 
+                                v-model="scope.row.product_quantity"  
+                                @change="handleChange(scope.row)"
+                                :min="0" 
+                                :max="10" 
+                                style="width: 130px"
+                            ></el-input-number>
+                        </template>
+                    </el-table-column>
+                
+                </el-table>
+                <div>
+                    <el-table
+                        :data="orderData" >
+                        <el-table-column 
+                            prop="product_name" 
+                            label="Product Name" 
+                            >
+
+                        </el-table-column>
+                        <el-table-column 
+                            prop="product_quantity" 
+                            label="Quantity" 
+                            >
+
+                        </el-table-column>
+                        <el-table-column 
+                            >
+                            
+                        </el-table-column>
+                        
+                    </el-table>
+                    <el-button 
+                        class="button" 
+                        @click="placeOrder()" 
+                        color="primary" 
+                        :disabled="orderData.length == 0 "
+                    >Place Order</el-button>
+                </div>
+            </div>
+        </el-dialog>
+        <el-dialog
+            title="Order"
+            :visible.sync="showDialogCustomers"
+            :before-close="closeDialog"
+            style="border-color: aquamarine"
+            width="50%"
+            >
+            <div class="tableStatus">
+                Customers
+                <el-input-number class="customersNumber" v-model="customersNumber" @change="handleChangeCustomers" :min="1" :max="4"  ></el-input-number>
+                <button @click="orderStatus()" >{{ orderStatusButton }}</button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'tablesPage',
 
     data() {
         return{
-            
+            showDialog:false,
+            tableData:[],
+            orderData:[],
+            showDialogCustomers:false,
+            customersNumber: 0,
+            orderStatusButton: 'Order',
+            currentTableNumber :''
+
         }
     },
 
@@ -56,11 +140,100 @@ export default {
             //     }
             },
         
-        showTable(tableNumber) {
-            this.$router.push({ name: 'tableStatus'});
+        async showTable(tableNumber) {
+            //create Order first 
+            this.showDialogCustomers = true;
+            this.currentTableNumber = tableNumber;
+            // this.$router.push({ name: 'tableStatus'});
             console.log(tableNumber)
+        },
+        closeDialog(){
+            
+            if (this.showDialog){
+                this.showDialog = false;
+                this.orderData = []
+                this.tableData = []
+                this.showDialogCustomers = false;
+                this.customersNumber = 0;
+                this.currentTableNumber = '';
+            }
+        },
+
+        handleChange(value) {
+            console.log("patisa place order")
+            console.log(value.product_name + "qty:" + value.product_quantity)
+            let alreadyExists = false
+            for(let i in this.orderData){
+                if (this.orderData[i].product_id == value.product_id ){
+                    alreadyExists = true
+                }       
+            }
+            if(alreadyExists ==true  && value.product_quantity == 0){
+                console.log("hereee")
+                let itemIdex = this.orderData.indexOf(value.product_id)
+                console.log(itemIdex)
+                this.orderData.splice(itemIdex-1,1)
+            }
+            else if(alreadyExists == false || this.orderData.length == 0){
+                this.orderData.push(value)
+            }
+
+        },
+        async loadPage(){
+            let response = axios.get('http://localhost:5000/api/getMenu')
+
+            return response
+        },
+        async placeOrder(){
+            console.log(JSON.stringify(this.orderData))
+            //createOrder
+            let body = {}
+            let data = []
+            // table_id:this.orderData[i].table_id,
+            for(let i in this.orderData){
+                data.push({
+                        product_id:this.orderData[i].product_id,
+                        product_quantity:this.orderData[i].product_quantity
+                    })
+                
+            }
+
+            body = {
+                table_id:this.orderData[0].table_id,
+                data: data
+            }
+            console.log(body.data)
+            let  response = await axios.post('http://localhost:5000/api/createOrder', 
+                body, { withCredentials: true });
+            
+            console.log(body)
+
+            console.log(response)
+            //insert data to order
+            // this.orderData = []
+            this.closeDialog()
+        },
+        handleChangeCustomers(value) {
+            console.log(value)
+        },
+        async orderStatus(){
+            // this.$router.push({ name: 'orderPage' })
+            let response = await this.loadPage()
+            let dataProducts = JSON.parse(JSON.stringify(response.data))
+
+            for (let i in dataProducts){
+
+                this.tableData.push({
+                    product_name: dataProducts[i].product_name,
+                    product_quantity: 0,
+                    product_id: dataProducts[i].product_id,
+                    table_id:this.currentTableNumber
+                })
+            }
+            this.showDialog = true;
+            
         }
-        }
+    }
         
         
 
@@ -143,5 +316,63 @@ export default {
     button:hover{
         cursor: pointer;
     }
+    .tableOrderDialog{
+    display: flex;
+    font-family: inherit;
+    font-size: 3rem;
+    padding: 15px 15px 15px 15px;
+    gap: 15px;
+    width: 800px;
+    max-height: 75%;
+    margin: auto;
+    background-color:  #edfff5cc;
+    border-radius: 5px;
+    
+    
+    }
+
+    .tableOrderMenuDialog{
+        overflow-y: scroll;
+    }
+    .tableStatus{
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        gap: 5px;
+        font-size: 2rem;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        padding: 15px 15px 15px 15px;
+        background-color:  #edfff5cc;
+        border-radius: 15px;
+        }
+
+        .customersNumber{
+            font-family: inherit;
+            font-size: 2rem;
+            width: 280px;
+            border-radius: 20px;
+            border-style:none;
+        }
+
+        .tableStatus>button{
+            align-self: end;
+            font-family: inherit;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 10px 40px 10px 40px;
+            border-radius: 40px;
+            border-style:none;
+            background-image: radial-gradient(#ffaec9,#ff7f27);
+        }
+
+        .tableStatus>button:hover{
+            background-image: radial-gradient(#ffaec9,#ffaec9,#ff7f27);
+        }
 
 </style>
