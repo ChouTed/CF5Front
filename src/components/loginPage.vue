@@ -7,7 +7,7 @@
         <input type="text" v-model="username" required id="username" name="username" placeholder="Your username.."><br>
         <label for="password">password</label><br>
         <input type="password" v-model="password" required id="password" name="password" placeholder="Your password.."><br>
-        <input @click="loginUser()" type="submit" value="Login" class="button">
+        <input @click="login()" type="submit" value="Login" class="button">
         
         </div>
     </div>
@@ -37,33 +37,20 @@ export default {
                 //     }
                 }
         },
-        async loginUser() {
-        try {
-            let credentials = {
-                username: this.username,
-                password: this.password
-            }
-            let response = await axios.post('http://localhost:5000/api/login',credentials)
-            
-            // if(response.data.error!= ""){
-            //     console.log("Wrong User")
-            //     console.log("Wrong User")
-            // }else {
-            //     // this.$router.push({ name: 'tablesPage' });
-            // }
-            
-            this.username="";
-            this.password="";
+        async login() {
+      try {
+        console.log('tried')
+        const response = await axios.post('http://localhost:5000/api/login', {
+          username: this.username,
+          password: this.password
+        }, { withCredentials: true });
+        
 
-            console.log(response)
-            return (response);
-            
-        } catch (error) {
-            console.log(error)
-            return 
-            
-        }
-        }
+        console.log(response.data);
+      } catch (error) {
+        console.error('Login failed', error);
+      }
+    }
     }
 
 }

@@ -6,6 +6,9 @@ import locale from 'element-ui/lib/locale/lang/en';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 
 
 import routes from './routes';
