@@ -104,7 +104,7 @@
             :visible.sync="showDialogCustomers"
             :before-close="closeDialog"
             style="border-color: aquamarine"
-            width="50%"
+            width="fit-content"
             >
             <div class="tableStatus">
                 Customers
@@ -207,7 +207,7 @@ export default {
             }
             console.log(body.data)
             let  response = null
-            if(this.this.existingOrder == false){
+            if(this.existingOrder == false){
                  response = await axios.post('http://localhost:5000/api/createOrder', 
                 body, { withCredentials: true });
             }else{
