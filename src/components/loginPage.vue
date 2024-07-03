@@ -27,22 +27,21 @@ export default {
     },
 
     methods: {
-        requirementCheckLoginButton()   {
-            if (this.username=='' || this.password =='' ){
-                console.warn('no')
-            }
-            else{
-                // if() {
-                //     this.$router.push({ name: 'tablesPage' });
-                //     }
-                }
-        },
+        // requirementCheckLoginButton()   {
+        //     if (this.username=='' || this.password =='' ){
+        //         console.warn('no')
+        //     }
+        //     else{
+        //         // if() {
+        //         //     this.$router.push({ name: 'tablesPage' });
+        //         //     }
+        //         }
+        // },
         async login() {
             try {
-                console.log('tried')
                 const response = await axios.post('http://localhost:5000/api/login', {
-                username: this.username,
-                password: this.password
+                    username: this.username,
+                    password: this.password
                 }, { withCredentials: true });
                 this.$router.push({ name: 'tablesPage' });
 
