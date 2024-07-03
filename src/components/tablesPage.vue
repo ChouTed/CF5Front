@@ -128,7 +128,8 @@ export default {
             showDialogCustomers:false,
             customersNumber: 0,
             orderStatusButton: 'Order',
-            currentTableNumber :''
+            currentTableNumber :'',
+            existingOrder:false
 
         }
     },
@@ -156,6 +157,7 @@ export default {
                 this.showDialogCustomers = false;
                 this.customersNumber = 0;
                 this.currentTableNumber = '';
+                this.existingOrder = false;
             }
         },
 
@@ -166,13 +168,14 @@ export default {
             for(let i in this.orderData){
                 if (this.orderData[i].product_id == value.product_id ){
                     alreadyExists = true
+                    console.log(i)
                 }       
             }
             if(alreadyExists ==true  && value.product_quantity == 0){
                 console.log("hereee")
-                let itemIdex = this.orderData.indexOf(value.product_id)
-                console.log(itemIdex)
-                this.orderData.splice(itemIdex-1,1)
+                let itemIdex = this.orderData.indexOf(value)
+
+                this.orderData.splice(itemIdex,1)
             }
             else if(alreadyExists == false || this.orderData.length == 0){
                 this.orderData.push(value)
@@ -203,8 +206,15 @@ export default {
                 data: data
             }
             console.log(body.data)
-            let  response = await axios.post('http://localhost:5000/api/createOrder', 
+            let  response = null
+            if(this.this.existingOrder == false){
+                 response = await axios.post('http://localhost:5000/api/createOrder', 
                 body, { withCredentials: true });
+            }else{
+                response = await axios.post('http://localhost:5000/api/updateOrder/' +parseInt(this.currentTableNumber).toString(), 
+                body, { withCredentials: true });
+            }
+            
             
             console.log(body)
 
@@ -219,6 +229,9 @@ export default {
         async orderStatus(){
             // this.$router.push({ name: 'orderPage' })
             let response = await this.loadPage()
+            let orderDetails = await this.getExistingOrder(this.currentTableNumber)
+            console.log(orderDetails)
+            
             let dataProducts = JSON.parse(JSON.stringify(response.data))
 
             for (let i in dataProducts){
@@ -230,8 +243,33 @@ export default {
                     table_id:this.currentTableNumber
                 })
             }
+
+            if (orderDetails.data.length > 0 ){
+
+                for(let j in orderDetails.data){
+                    for (let i in this.tableData){
+                        if (orderDetails.data[j].product_id == this.tableData[i].product_id){
+                            this.orderData.push(this.tableData[i])
+                            let dataIndex = this.orderData.indexOf(this.tableData[i]);
+                            this.orderData[dataIndex].product_quantity = orderDetails.data[j].product_quantity
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            console.log("this orderdat")
+            console.log(this.orderData)
             this.showDialog = true;
             
+        },
+        async getExistingOrder(tabel_no){
+            let url = 'http://localhost:5000/api/getOrder/' + parseInt(tabel_no).toString()
+            console.log(url)
+            let response = axios.get(url)
+
+            return response
         }
     }
         
