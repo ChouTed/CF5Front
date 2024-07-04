@@ -92,6 +92,12 @@
                     </el-table>
                     <el-button 
                         class="button" 
+                        @click="deleteOrder()" 
+                        color="primary" 
+                        :disabled="currentOrderId <= 0  "
+                    >Delete Order</el-button>
+                    <el-button 
+                        class="button" 
                         @click="placeOrder()" 
                         color="primary" 
                         :disabled="orderData.length == 0 "
@@ -129,7 +135,8 @@ export default {
             customersNumber: 0,
             orderStatusButton: 'Order',
             currentTableNumber :'',
-            existingOrder:false
+            existingOrder:false,
+            currentOrderId:0
 
         }
     },
@@ -158,6 +165,8 @@ export default {
                 this.customersNumber = 0;
                 this.currentTableNumber = '';
                 this.existingOrder = false;
+                this.currentOrderId = 0;
+
             }
         },
 
@@ -207,11 +216,12 @@ export default {
             }
             console.log(body.data)
             let  response = null
-            if(this.existingOrder == false){
+            if(this.currentOrderId == 0){
                  response = await axios.post('http://localhost:5000/api/createOrder', 
                 body, { withCredentials: true });
+                console.log(response)
             }else{
-                response = await axios.post('http://localhost:5000/api/updateOrder/' +parseInt(this.currentTableNumber).toString(), 
+                response = await axios.post('http://localhost:5000/api/updateOrder/' +parseInt(this.currentTableNumber).toString()+'/' +this.currentOrderId, 
                 body, { withCredentials: true });
             }
             
@@ -245,13 +255,16 @@ export default {
             }
 
             if (orderDetails.data.length > 0 ){
-
+                this.existingOrder = true;
+                this.currentOrderId = orderDetails.data[0].order_id
                 for(let j in orderDetails.data){
+                    // this.orderData['order_id'] = 
                     for (let i in this.tableData){
                         if (orderDetails.data[j].product_id == this.tableData[i].product_id){
                             this.orderData.push(this.tableData[i])
                             let dataIndex = this.orderData.indexOf(this.tableData[i]);
                             this.orderData[dataIndex].product_quantity = orderDetails.data[j].product_quantity
+
                         }
                         
                     }
@@ -270,7 +283,11 @@ export default {
             let response = axios.get(url)
 
             return response
+        },
+        deleteOrder(){
+            console.log(this.currentOrderId)
         }
+
     }
         
         
