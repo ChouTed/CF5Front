@@ -1,13 +1,13 @@
 <template>
-    <div class="hello">
+    <div class="hello" >
         <h1>Login</h1>
         <br>
         <div class="form"  >
         <label for="username">username</label><br>
-        <input type="text" v-model="username" required id="username" name="username" placeholder="Your username.."><br>
+        <input type="text" v-model="username"  required id="username" name="username" placeholder="Your username.."><br>
         <label for="password">password</label><br>
-        <input type="password" v-model="password" required id="password" name="password" placeholder="Your password.."><br>
-        <input @click="login()" type="submit" value="Login" class="button">
+        <input type="password" v-model="password"  @keyup.enter="onEnter" required id="password" name="password" placeholder="Your password.."><br>
+        <input @click="login()"  type="submit" value="Login" class="button">
         
         </div>
     </div>
@@ -49,6 +49,9 @@ export default {
             } catch (error) {
                 console.error('Login failed', error);
             }
+        },
+        onEnter(){
+            this.login();
         }
     }
 

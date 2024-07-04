@@ -41,7 +41,7 @@
             :visible.sync="showDialog"
             :before-close="closeDialog"
             style="border-color: aquamarine"
-            width="50%"
+            width="fit-content"
             >
             <div class="tableOrderDialog" >
                 <el-table
