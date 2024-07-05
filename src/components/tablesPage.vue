@@ -54,7 +54,6 @@
                         class="tableOrderMenuDialog"
                         prop="product_name" 
                         label="Product Name" 
-                        label-class-name="kati"
                         >
                     </el-table-column>
                     <el-table-column 
@@ -75,7 +74,7 @@
                 </el-table>
                 <div>
                     <el-table
-                        class="kati"
+                        class="placeholderClass"
                         :data="orderData" 
                         >
                         <el-table-column 
@@ -398,15 +397,12 @@ export default {
     }
 
     .table{
-        display: flex;
-
         margin: 15px 15px 15px 15px;
         border-radius: 5px;
         border-style:none; 
         background-color: #7af3fc;
         font-family: inherit;
         font-size: 2rem;
-        text-align: left;
     }
 
     .table:hover{
@@ -520,7 +516,7 @@ export default {
             background-color: rgb(252, 69, 69);
         }
         
-        .kati{
+        .placeholderClass{
             width: 400px;
         }
 </style>
