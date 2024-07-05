@@ -2,46 +2,48 @@
     <div class="tablesPage">
         <div class="locationIn">
             <h1>Inside Tables</h1>
-            <button @click="showTable('01')" class="table capacity6">01</button>
-            <button @click="showTable('02')" class="table capacity6">02</button>
-            <button @click="showTable('03')" class="table capacity6">03</button>
-            <button @click="showTable('04')" class="table capacity6">04</button>
-            <button @click="showTable('05')" class="table capacity6">05</button>
-            <button @click="showTable('06')" class="table capacity6">06</button>
-            <button @click="showTable('07')" class="table capacity6">07</button>
-            <button @click="showTable('08')" class="table capacity6">08</button>
-            <button @click="showTable('09')" class="table capacity6">09</button>
-            <button @click="showTable('10')" class="table capacity6">10</button>
-            <button @click="showTable('11')" class="table capacity4">11</button>
-            <button @click="showTable('12')" class="table capacity4">12</button>
-            <button @click="showTable('13')" class="table capacity4">13</button>
-            <button @click="showTable('14')" class="table capacity4">14</button>
-            <button @click="showTable('15')" class="table capacity4">15</button>
-            <button @click="showTable('16')" class="table capacity4">16</button>
-            <button @click="showTable('17')" class="table capacity4">17</button>
-            <button @click="showTable('18')" class="table capacity4">18</button>
-            <button @click="showTable('19')" class="table capacity4">19</button>
-            <button @click="showTable('20')" class="table capacity4">20</button>
+            <button @click="showTable('01',6)" class="table capacity6">01</button>
+            <button @click="showTable('02',6)" class="table capacity6">02</button>
+            <button @click="showTable('03',6)" class="table capacity6">03</button>
+            <button @click="showTable('04',6)" class="table capacity6">04</button>
+            <button @click="showTable('05',6)" class="table capacity6">05</button>
+            <button @click="showTable('06',6)" class="table capacity6">06</button>
+            <button @click="showTable('07',6)" class="table capacity6">07</button>
+            <button @click="showTable('08',6)" class="table capacity6">08</button>
+            <button @click="showTable('09',6)" class="table capacity6">09</button>
+            <button @click="showTable('10',6)" class="table capacity6">10</button>
+            <button @click="showTable('11',4)" class="table capacity4">11</button>
+            <button @click="showTable('12',4)" class="table capacity4">12</button>
+            <button @click="showTable('13',4)" class="table capacity4">13</button>
+            <button @click="showTable('14',4)" class="table capacity4">14</button>
+            <button @click="showTable('15',4)" class="table capacity4">15</button>
+            <button @click="showTable('16',4)" class="table capacity4">16</button>
+            <button @click="showTable('17',4)" class="table capacity4">17</button>
+            <button @click="showTable('18',4)" class="table capacity4">18</button>
+            <button @click="showTable('19',4)" class="table capacity4">19</button>
+            <button @click="showTable('20',4)" class="table capacity4">20</button>
         </div>
         <div class="locationOut">
             <h1>Outside Tables</h1>
-            <button @click="showTable('21')" class="table capacity6">21</button>
-            <button @click="showTable('22')" class="table capacity6">22</button>
-            <button @click="showTable('23')" class="table capacity6">23</button>
-            <button @click="showTable('24')" class="table capacity6">24</button>
-            <button @click="showTable('25')" class="table capacity6">25</button>
-            <button @click="showTable('26')" class="table capacity4">26</button>
-            <button @click="showTable('27')" class="table capacity4">27</button>
-            <button @click="showTable('28')" class="table capacity4">28</button>
-            <button @click="showTable('29')" class="table capacity4">29</button>
-            <button @click="showTable('30')" class="table capacity4">30</button>
+            <button @click="showTable('21',6)" class="table capacity6">21</button>
+            <button @click="showTable('22',6)" class="table capacity6">22</button>
+            <button @click="showTable('23',6)" class="table capacity6">23</button>
+            <button @click="showTable('24',6)" class="table capacity6">24</button>
+            <button @click="showTable('25',6)" class="table capacity6">25</button>
+            <button @click="showTable('26',4)" class="table capacity4">26</button>
+            <button @click="showTable('27',4)" class="table capacity4">27</button>
+            <button @click="showTable('28',4)" class="table capacity4">28</button>
+            <button @click="showTable('29',4)" class="table capacity4">29</button>
+            <button @click="showTable('30',4)" class="table capacity4">30</button>
         </div>
         <el-dialog
             title="Order"
+            class="order-dialog"
             :visible.sync="showDialog"
             :before-close="closeDialog"
             style="border-color: aquamarine"
             width="fit-content"
+
             >
             <div class="tableOrderDialog" >
                 <el-table
@@ -49,8 +51,10 @@
                     :data="tableData" 
                     > 
                     <el-table-column 
+                        class="tableOrderMenuDialog"
                         prop="product_name" 
                         label="Product Name" 
+                        label-class-name="kati"
                         >
                     </el-table-column>
                     <el-table-column 
@@ -71,7 +75,9 @@
                 </el-table>
                 <div>
                     <el-table
-                        :data="orderData" >
+                        class="kati"
+                        :data="orderData" 
+                        >
                         <el-table-column 
                             prop="product_name" 
                             label="Product Name" 
@@ -92,10 +98,13 @@
                     </el-table>
                     <el-button 
                         class="button" 
-                        @click="deleteOrder()" 
-                        color="primary" 
+                        @click="showDeleteOrder" 
                         :disabled="currentOrderId <= 0  "
-                    >Delete Order</el-button>
+                        type="danger"
+                        icon="el-icon-delete"
+                    >
+                        
+                    </el-button>
                     <el-button 
                         class="button" 
                         @click="placeOrder()" 
@@ -114,8 +123,25 @@
             >
             <div class="tableStatus">
                 Customers
-                <el-input-number class="customersNumber" v-model="customersNumber" @change="handleChangeCustomers" :min="1" :max="4"  ></el-input-number>
-                <button @click="orderStatus()" >{{ orderStatusButton }}</button>
+                <el-input-number class="customersNumber" v-model="customersNumber" @change="handleChangeCustomers" :min="0" :max="tableCapacityMax"  ></el-input-number>
+                <el-button :disabled="customersNumber===0"  @click="orderStatus()" >{{ orderStatusButton }}</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog
+            title="Are you sure you want to delete this table's order?"
+            top="15%"
+            :show-close="false"
+            :visible.sync="showDialogDeleteButton"
+            :before-close="closeDeleteDialog"
+            style="border-color: aquamarine"
+            width="fit-content"
+            >
+            <div class="deleteOrder">
+                <button @click="closeDeleteDialog" 
+                class="button"
+                margin="15px"> Cancel</button>
+                <button @click="deleteOrder()" 
+                class="button" >Delete Order</button>
             </div>
         </el-dialog>
     </div>
@@ -128,15 +154,19 @@ export default {
 
     data() {
         return{
+
             showDialog:false,
             tableData:[],
             orderData:[],
+            tableCapacityMin : 0,
+            tableCapacityMax : 0,
             showDialogCustomers:false,
             customersNumber: 0,
             orderStatusButton: 'Order',
             currentTableNumber :'',
             existingOrder:false,
-            currentOrderId:0
+            currentOrderId:0,
+            showDialogDeleteButton:false,
 
         }
     },
@@ -148,12 +178,23 @@ export default {
             //     }
             },
         
-        async showTable(tableNumber) {
-            //create Order first 
-            this.showDialogCustomers = true;
-            this.currentTableNumber = tableNumber;
-            // this.$router.push({ name: 'tableStatus'});
-            console.log(tableNumber)
+        async showTable(tableNumber, capacity) {
+            // await this.loadPage()
+            this.tableCapacityMax = capacity
+            let orderDetails = await this.getExistingOrder(tableNumber)
+            console.log(orderDetails)
+            console.log(orderDetails.data.length)
+            if (orderDetails.data.length <= 0){
+                this.showDialogCustomers = true;
+                this.currentTableNumber = tableNumber;
+            }else{
+                this.currentTableNumber = tableNumber;
+                await this.orderStatus()
+            }
+            
+        },
+        showDeleteOrder(){
+            this.showDialogDeleteButton = true;
         },
         closeDialog(){
             
@@ -162,10 +203,20 @@ export default {
                 this.orderData = []
                 this.tableData = []
                 this.showDialogCustomers = false;
+                this.showDialogDeleteButton = false;
                 this.customersNumber = 0;
                 this.currentTableNumber = '';
                 this.existingOrder = false;
                 this.currentOrderId = 0;
+
+            }else if(this.showDialogCustomers){
+                this.customersNumber = 0
+                this.showDialogCustomers = false
+            } 
+        },
+        closeDeleteDialog(){
+            if(this.showDialogDeleteButton){
+                this.showDialogDeleteButton = false;
 
             }
         },
@@ -277,15 +328,19 @@ export default {
             this.showDialog = true;
             
         },
-        async getExistingOrder(tabel_no){
-            let url = 'http://localhost:5000/api/getOrder/' + parseInt(tabel_no).toString()
+        async getExistingOrder(table_no){
+            let url = 'http://localhost:5000/api/getOrder/' + parseInt(table_no).toString()
             console.log(url)
             let response = axios.get(url)
 
             return response
         },
-        deleteOrder(){
-            console.log(this.currentOrderId)
+        async deleteOrder(){
+            let response = axios.delete('http://localhost:5000/api/deleteOrder/' + this.currentOrderId)
+            this.closeDeleteDialog()
+            this.orderData=[]
+
+            return response
         }
 
     }
@@ -388,6 +443,7 @@ export default {
 
     .tableOrderMenuDialog{
         overflow-y: scroll;
+        width: fit-content;
     }
     .tableStatus{
         width: fit-content;
@@ -414,6 +470,10 @@ export default {
             border-style:none;
         }
 
+        .order-dialog {
+            overflow-y: scroll;
+        }
+
         .tableStatus>button{
             align-self: end;
             font-family: inherit;
@@ -430,4 +490,37 @@ export default {
             background-image: radial-gradient(#ffaec9,#ffaec9,#ff7f27);
         }
 
+        .button{
+            align-self: end;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+            padding: 10px 40px 10px 40px;
+            border-radius: 40px;
+            border-style:none;
+
+        }
+
+        .deleteOrder > button{
+            align-self: end;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-top: 15px;
+            padding: 10px 40px 10px 40px;
+            border-radius: 40px;
+            border-style:none;
+
+        }
+
+        .deleteOrder > button:last-child:hover{
+            background-color: rgb(252, 69, 69);
+        }
+        
+        .kati{
+            width: 400px;
+        }
 </style>
