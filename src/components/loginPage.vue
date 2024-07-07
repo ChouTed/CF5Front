@@ -1,13 +1,13 @@
 <template>
-    <div class="hello">
+    <div class="hello" >
         <h1>Login</h1>
         <br>
         <div class="form"  >
         <label for="username">username</label><br>
-        <input type="text" v-model="username" required id="username" name="username" placeholder="Your username.."><br>
+        <input type="text" v-model="username"  required id="username" name="username" placeholder="Your username.."><br>
         <label for="password">password</label><br>
-        <input type="password" v-model="password" required id="password" name="password" placeholder="Your password.."><br>
-        <input @click="loginUser()" type="submit" value="Login" class="button">
+        <input type="password" v-model="password"  @keyup.enter="onEnter" required id="password" name="password" placeholder="Your password.."><br>
+        <input @click="login()"  type="submit" value="Login" class="button">
         
         </div>
     </div>
@@ -27,35 +27,31 @@ export default {
     },
 
     methods: {
-        requirementCheckLoginButton()   {
-            if (this.username=='' || this.password =='' ){
-                console.warn('no')
-            }
-            else{
-                // if() {
-                //     this.$router.push({ name: 'tablesPage' });
-                //     }
-                }
-        },
-        async loginUser() {
-        try {
-            // let response = await axios.post('http://localhost:5000/api/login',  {
-            //         username: this.username,
-            //         password: this.password})
-            
-            // this.username="";
-            // this.password="";
-            // return response;
+        // requirementCheckLoginButton()   {
+        //     if (this.username=='' || this.password =='' ){
+        //         console.warn('no')
+        //     }
+        //     else{
+        //         // if() {
+        //         //     this.$router.push({ name: 'tablesPage' });
+        //         //     }
+        //         }
+        // },
+        async login() {
+            try {
+                const response = await axios.post('http://localhost:5000/api/login', {
+                    username: this.username,
+                    password: this.password
+                }, { withCredentials: true });
+                this.$router.push({ name: 'tablesPage' });
 
-            let response = await axios.get('http://localhost:5000/api/login',  { withCredentials: true } )
-            
-            
-            return response;
-            
-        } catch (error) {
-            return 
-            // console.error('An error occurred:', error);
-        }
+                console.log(response.data);
+            } catch (error) {
+                console.error('Login failed', error);
+            }
+        },
+        onEnter(){
+            this.login();
         }
     }
 
@@ -146,7 +142,8 @@ border-bottom: 2px solid #00a2e8;
 }
 
 .button{
-display:flex ;
+/*display: flex;*/
+justify-content: center;
 margin-left: auto;
 margin-right: auto;
 font-size: 2rem;
@@ -155,7 +152,7 @@ margin-top: 15px;
 padding: 20px 40px 20px 40px;
 border-radius: 40px;
 border-style:none;
-background-image: radial-gradient(#ffaec9,#ff7f27);
+background-image: radial-gradient(#ffaec9,#ff7f27); 
 }
 
 .button:hover{
