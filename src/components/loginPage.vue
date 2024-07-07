@@ -142,7 +142,8 @@ border-bottom: 2px solid #00a2e8;
 }
 
 .button{
-display:flex ;
+/*display: flex;*/
+justify-content: center;
 margin-left: auto;
 margin-right: auto;
 font-size: 2rem;
@@ -151,7 +152,7 @@ margin-top: 15px;
 padding: 20px 40px 20px 40px;
 border-radius: 40px;
 border-style:none;
-background-image: radial-gradient(#ffaec9,#ff7f27);
+background-image: radial-gradient(#ffaec9,#ff7f27); 
 }
 
 .button:hover{
