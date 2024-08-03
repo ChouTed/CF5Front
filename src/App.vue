@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <img class="logo" alt="tailandi logo" src="./assets/logo.png">
+    <img class="logo" alt="phuket logo" src="./assets/logo.png">
     <!-- <router-link to="/loginPage">Login</router-link> -->
      <router-view/>
   </div>
@@ -30,7 +30,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    background-image: url('/src/assets/tailandiBackground.png');
+    background-image: url('/src/assets/Background.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size:cover;
